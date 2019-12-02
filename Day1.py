@@ -6,7 +6,7 @@ def fuel_needed(number):
 def calculate_fuel(weight):
     total_fuel = 0
     fuel = fuel_needed(weight)
-    while(fuel > 0):
+    while fuel > 0:
         total_fuel += fuel
         fuel = fuel_needed(fuel)
     return total_fuel
