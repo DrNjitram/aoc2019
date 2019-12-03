@@ -1,38 +1,41 @@
 from boilerplates import read_text_from_file
-from time import time
+from timeit import timeit
 
 wires = read_text_from_file(r"D:\AdventOfCode2019\probleminput\day3.txt", split=",")
 
-grid = set()
-distances_dict = dict()
-crossings = set()
+def get_all_points(path):
+    points = set()
+    dist = dict()
+    new_pos = (0, 0)
+    next_step = (0, 0)
+    steps = 0
 
-def fill_in_line(grid_set, start, direction, wire, other_wire, steps):
-    direct = {"U":(0, 1), "D":(0, -1), "L":(-1, 0), "R":(1, 0)}[direction[0]]
-    length = int(direction[1:])
+    for instruction in path:
+        direct = {"U": (0, 1), "D": (0, -1), "L": (-1, 0), "R": (1, 0)}[instruction[0]]
+        length = int(instruction[1:])
 
-    while length > 0:
-        steps += 1
-        new_pos = (start[0] + direct[0], start[1] + direct[1])
-        if new_pos + tuple([other_wire]) in grid_set:
-            crossings.add(new_pos + tuple([wire, other_wire]))
-        grid_set.add(new_pos + tuple([wire]))
-        distances_dict[new_pos + tuple([wire])] = steps
-        start = new_pos
-        length -=1
+        for i in range(length):
+            next_step = new_pos[0] + i * direct[0], new_pos[1] + i * direct[1]
+            points.update(tuple([next_step]))
+            dist[next_step] = steps + i
 
-    return start, steps
 
-time_0 = time()
-for wire_id, wire_insts in enumerate(wires):
-    current_pos = (0, 0)
-    current_steps = 0
-    for inst in wire_insts:
-        current_pos, current_steps = fill_in_line(grid, current_pos, inst, wire_id, 0 if wire_id == 1 else 1, current_steps)
+        new_pos = next_step
+        steps += length
 
-distances = []
-for cross in crossings:
-    distances.append(distances_dict[(cross[0],cross[1], 0)] + distances_dict[(cross[0],cross[1], 1)])
+    return points, dist
 
-print(sorted(distances)[0])
-print(time() - time_0)
+def solution2():
+    points, dist_1 = get_all_points(wires[0])
+    points_2, dist_2 = get_all_points(wires[1])
+
+    crossings = points & points_2
+
+    crossings_length = [abs(cr[0]) + abs(cr[1]) for cr in crossings]
+    costs = [dist_1[cr] + dist_2[cr] for cr in crossings]
+
+    #print("Part 1:", sorted(crossings_length)[0])
+    #print("Part 2:", sorted(costs)[0])
+
+reps = 100
+print(timeit(solution2, number=reps)/reps)
