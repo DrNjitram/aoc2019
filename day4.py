@@ -14,5 +14,3 @@ for i in range(125730, 579381 + 1):
 
 print("Part 1:", amount_2)
 print("Part 2:", amount_2 + amount_1)
-
-
