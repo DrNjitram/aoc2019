@@ -6,24 +6,21 @@ def check_number(str_no):
     else:
         return 0, 0
 
+def generate_arr(arr):
+    arr_arr = [arr[0]] + [-1 if j < arr[i - 1] else j for i, j in enumerate(arr[1:])]
+    arr_arr = [i for i in arr_arr if i > -1]
+    arr_arr = arr_arr + [arr_arr[-1]]
+    return arr_arr, len(arr_arr)
+
 def solution():
     amounts_1, amounts_2 = 0, 0
     start = [1,2,5,7,3,0]
     end = [5,7,9,3,8,1]
-    start_no = 125730
-    end_no = 579381
+
     started = False
 
-
-    start_arr = [start[0]] + [-1 if j < start[i - 1] else j for i, j in enumerate(start[1:])]
-    start_arr = [i for i in start_arr if i > -1]
-    start_arr = start_arr + [start_arr[-1]]
-
-    end_arr = [end[0]] + [-1 if j < end[i - 1] else j for i, j in enumerate(end[1:])]
-    end_arr = [i for i in end_arr if i > -1]
-    end_arr = end_arr + [end_arr[-1]]
-
-
+    start_arr, l_start_arr = generate_arr(start)
+    end_arr, l_end_arr = generate_arr(end)
 
     for a in range(start[0], end[0] + 1):
         for b in range(a, 10):
@@ -31,13 +28,14 @@ def solution():
                 for d in range(c, 10):
                     for e in range(d, 10):
                         for f in range(e, 10):
-                            if started or [a, b, c, d, e] == start_arr:
+                            numbers = [a, b, c, d, e, f]
+                            if started or numbers[:l_start_arr] == start_arr:
                                 started = True
-                                result = check_number([a, b, c, d, e, f])
+                                result = check_number(numbers)
                                 amounts_1 += result[0]
                                 amounts_2 += result[1]
 
-                                if [a, b, c, d] == end_arr:
+                                if numbers[:l_end_arr] == end_arr:
                                     #print("Part 1:", amounts_2)
                                     #print("Part 2:", amounts_1)
                                     return 0
