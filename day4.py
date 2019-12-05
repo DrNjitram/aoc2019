@@ -42,4 +42,4 @@ def solution():
 
 #solution()
 from timeit import timeit
-print(timeit(solution, number=10000)/10000)
+print(timeit(solution, number=100)/100)
