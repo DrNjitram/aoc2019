@@ -1,7 +1,7 @@
 from boilerplates import read_text_from_file
 
-f = read_text_from_file(r"D:\AdventOfCode2019\probleminput\day8.txt")
-f =f[0]
+f = read_text_from_file("day8")
+f = f[0]
 width = 25
 tall = 6
 length = width * tall
