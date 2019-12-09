@@ -24,25 +24,23 @@ def solution():
     for orbit in orbit_dict.keys():
         total_dist += get_distance_to(orbit, orbit_dict)
 
-    #print("Part 1:", total_dist)
-
     visited_you = get_orbits("YOU", orbit_dict)
     visited_san = get_orbits("SAN", orbit_dict)
 
-
     depth = 0
+    vis_you_rev = visited_you[::-1]
+    vis_san_rev = visited_san[::-1]
     for i in range(max([len(visited_san), len(visited_you)])):
-        a = visited_you[::-1][i]
-        b = visited_san[::-1][i]
+        a = vis_you_rev[i]
+        b = vis_san_rev[i]
         if a == b:
             depth += 1
         else:
             break
 
-    #print("Part 2:", len(visited_san) + len(visited_you) - 2 * depth)
     return total_dist, len(visited_san) + len(visited_you) - 2 * depth
 
-from timeit import timeit
-
 print(solution())
-print(timeit(solution, number=100)/100)
+
+from timeit import timeit
+print(timeit(solution, number=1000)/1000)
