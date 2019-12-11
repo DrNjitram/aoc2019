@@ -1,7 +1,7 @@
 from boilerplates import read_number_from_file
 from intcode import get_output
 
-commands = read_number_from_file("day11", split=",") + [0] * 1000
+commands = read_number_from_file("day11", split=",")
 
 direction = 0 # 0, up, 1, right, 2, bottom, 3, left
 panels = {(0, 0): 1}
@@ -10,7 +10,6 @@ pointer = 0
 rel_offset = 0
 halted = True
 color = 0
-
 
 while halted:
     if position in panels:
