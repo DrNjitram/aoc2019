@@ -1,7 +1,9 @@
 from boilerplates import read_number_from_file
 from time import time
 
-def get_output(init_inst, v1, v2):
+from intcode import get_output
+
+def get_output2(init_inst, v1, v2):
     init_inst[1] = v1
     init_inst[2] = v2
 
@@ -23,26 +25,32 @@ def get_factors(x):
            if i < 100 and x/i < 100:
                return i
 
+desired = 19690720
+program  = read_number_from_file("day2", split=",")
+
 def old_sol(inst):
-    prev = 0
     for i in range(0, 99):
         for j in range(0, 99):
-            # with 0, 0 we get 4320
-            a = i  # adds 307200 to output
-            b = j  # add one to output
-            # output = 4320 + a * b * 3076
-            output = get_output(inst[:], a, b)
-            #print(a, b, output, output - prev)
-            prev = output
+            inst[1] = i
+            inst[2] = j
+            output = get_output(inst, debug=True)
             if output == desired:
                 print(a * 100 + b)
                 exit()
 
-desired = 19690720
-program  = read_number_from_file(r"D:\Downloads\day2.txt", split=",")
-#program  = read_number_from_file(r"D:\AdventOfCode2019\probleminput\day2.txt", split=",")
+
 
 time_0 = time()
+
+#old_sol(program[:])
+pr = program[:]
+pr[1] = 12
+pr[2] = 2
+print(get_output(pr[:])[1:])
+pr[1] = 64
+pr[2] = 72
+print(get_output(pr[:])[1:])
+exit()
 
 print("Part 1:")
 print(get_output(program[:], 12, 2))

@@ -1,6 +1,7 @@
 from boilerplates import read_number_from_file
+from intcode import get_output
 
-def get_output(init_inst, system_id):
+def get_output2(init_inst, system_id):
     inst_pnt = 0
     cnt = 0
     while init_inst[inst_pnt] != 99:
@@ -9,6 +10,8 @@ def get_output(init_inst, system_id):
 
         positionals = str(instruction)[:-2][::-1] + "00"
         instruction = instruction % 100
+
+        pos_2 = ""
 
         if positionals[0] == "1":
             pos_1 = init_inst[inst_pnt + 1]
@@ -21,6 +24,7 @@ def get_output(init_inst, system_id):
             else:
                 pos_2 = init_inst[init_inst[inst_pnt + 2]]
 
+        #print(positionals, instruction, pos_1, pos_2)
 
         if instruction == 1:
             init_inst[init_inst[inst_pnt + 3]] = pos_1 + pos_2
@@ -49,13 +53,15 @@ def get_output(init_inst, system_id):
 
     return init_inst[0]
 
-program = read_number_from_file(r"D:\AdventOfCode2019\probleminput\day5.txt", split=",")
+program = read_number_from_file("day5", split=",")
 
-print("Part 1:", get_output(program[:], 1))
-print("Part 2:", get_output(program[:], 5))
+print("Part 1:", get_output2(program[:], 1))
+program = read_number_from_file("day5", split=",")
+print(get_output(program[:], 1)[1:])
+#print("Part 2:", get_output2(program[:], 5))
 
-def solution():
-    return get_output(program[:], 1) + get_output(program[:], 5)
-
-from timeit import timeit
-print(timeit(solution, number=1000)/1000)
+# def solution():
+#     return get_output(program[:], 1) + get_output(program[:], 5)
+#
+# #from timeit import timeit
+# #print(timeit(solution, number=1000)/1000)
