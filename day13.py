@@ -27,23 +27,19 @@ def print_board(tls, printing = True):
 
     return brd[(-1, 0)], len([i for i in brd if brd[i] == 2]) #, [i for i in brd if brd[i] == 3], [i for i in brd if brd[i] == 4]
 
-commands = read_number_from_file("day13", split=",")
-commands[0] = 2
+def solution():
+    commands = read_number_from_file("day13", split=",")
+    commands[0] = 2
 
-halt = True
-inp = 0
-left = -1
-score = -1
+    halt = True
+    inp = 0
 
-while halt:
-    commands, pnt, output1, output2, offset, halt = get_output(commands, inp)
+    while halt:
+        commands, pnt, output1, output2, offset, halt = get_output(commands, inp)
 
     tiles = chunks(output1, 3)
     score, left = print_board(tiles)
+    print("Score:", score)
 
-    #inp = int((ball[0][0] - paddle[0][0]) / abs(paddle[0][0] - ball[0][0]) if paddle[0][0]-ball[0][0] else 0)
-    #inp = 0
-    print(score, left)
-
-print("You lose!")
-print("Score:", score)
+from timeit import timeit
+print(timeit(solution, number=1))

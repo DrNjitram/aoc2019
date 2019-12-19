@@ -14,7 +14,11 @@ def calculate_fuel(weight):
 
 filename = r"D:\AdventOfCode2019\probleminput\day1.txt"
 
-numbers = read_number_from_file(filename)
+from codecs import open
+
+numbers = [int(i) for i in open(filename).readlines()]
+
+#numbers = read_number_from_file(filename)
 
 answer = sum([calculate_fuel(module) for module in numbers])
 

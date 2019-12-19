@@ -1,6 +1,10 @@
 def get_output(init_inst, inp = 0, inst_pnt = 0, rel_offset = 0, debug = False):
     init_inst += [0] * 4000
     output_buffer = []
+    if type(inp) == type(int()):
+        inp = [inp]
+    else:
+        inp = inp[::-1]
     cnt = 0
     while init_inst[inst_pnt] != 99:
         cnt += 1
@@ -50,14 +54,14 @@ def get_output(init_inst, inp = 0, inst_pnt = 0, rel_offset = 0, debug = False):
             init_inst[pos_3] = pos_1 * pos_2
             inst_pnt += 4
         elif instruction == 3:
-            if inp != -1:
+            if len(inp) > 0:
                 if positionals[0] == "2":
                     pos_1 = init_inst[inst_pnt + 1] + rel_offset
                 else:
                     pos_1 = init_inst[inst_pnt + 1]
 
-                init_inst[pos_1] = inp
-                inp = -1
+                init_inst[pos_1] = inp.pop()
+
                 inst_pnt += 2
             else:
                 return init_inst, inst_pnt, output_buffer, -1, rel_offset, True
