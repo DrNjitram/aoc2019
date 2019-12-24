@@ -14,7 +14,12 @@ def read_number_from_file(filepath, codec = "utf-8", split = None):
                 lines = [int(i) for i in file[0].split(split)]
     else:
         with open(filepath, "r", codec) as file:
-            lines = [int(i) for i in file.readline().split(split)]
+            if split == "":
+                lines = []
+                for line in file.readlines():
+                    lines.append([int(i) for i in line.strip()])
+            else:
+                lines = [int(i) for i in file.readline().split(split)]
     return lines
 
 def read_text_from_file(filepath, codec = "utf-8", split = None, nostrip = False):
